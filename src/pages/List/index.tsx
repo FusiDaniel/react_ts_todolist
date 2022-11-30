@@ -28,10 +28,40 @@ export function List(): JSX.Element {
     [newTask, setNewtask, tasks, setTasks],
   );
 
+  const handleDelete = useCallback(
+    (e: React.MouseEvent<SVGElement, MouseEvent>, index: number) => {
+      const newTasks = [...tasks];
+      newTasks.splice(index, 1);
+      setTasks([...newTasks]);
+    },
+    [tasks, setTasks],
+  );
+
+  const handleEdit = useCallback(
+    (
+      e: React.SyntheticEvent<HTMLFormElement>,
+      index: number,
+      newTask: string,
+    ): void => {
+      e.preventDefault();
+
+      if (tasks.indexOf(newTask) !== -1) return;
+
+      const newTasks = [...tasks];
+      newTasks[index] = newTask;
+      setTasks([...newTasks]);
+    },
+    [tasks, setTasks],
+  );
+
   return (
     <>
       <h1 className="title">List</h1>
-      <TasksList tasks={tasks} />
+      <TasksList
+        tasks={tasks}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+      />
       <Forms
         handleChange={(e) => handleChange(e)}
         handleSubmit={(e) => handleSubmit(e)}
