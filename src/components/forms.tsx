@@ -23,7 +23,7 @@ export function Forms(props: Props): JSX.Element {
         value={props.newTask}
       />
       <button type="submit">
-        <FiPlusCircle />
+        <FiPlusCircle className="addButton" />
       </button>
     </form>
   );

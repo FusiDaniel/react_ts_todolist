@@ -36,7 +36,7 @@ export function TasksList(props: Props): JSX.Element {
   );
 
   return (
-    <ul>
+    <ul className="taskList">
       {props.tasks.map((task, index) => (
         <li key={task}>
           <span className="taskContent">
@@ -44,7 +44,7 @@ export function TasksList(props: Props): JSX.Element {
               newTask={index === hiddenIndex ? newTask : task}
               handleChange={(e) => handleChange(e)}
               handleSubmit={(e) => handleSubmit(e)}
-              classPath={index === hiddenIndex ? '' : 'hidden'}
+              classPath={index === hiddenIndex ? 'insideTaskForm' : 'hidden'}
             />
             {hiddenIndex === index ? null : task}
           </span>
