@@ -78,7 +78,10 @@ export function List(): JSX.Element {
     ): void => {
       e.preventDefault();
 
-      if (newTaskToAdd === '') {
+      let newTask = newTaskToAdd;
+      newTask = newTask.trim();
+
+      if (newTask === '') {
         const newTasks = [...tasks];
         const oldTask = newTasks[index];
         newTasks.splice(index, 1);
@@ -88,9 +91,9 @@ export function List(): JSX.Element {
         const response = deleteItem(oldTask.id);
         return;
       }
-      for (const task of tasks) {
-        if (task.message === newTaskToAdd) {
-          window.alert(`${newTaskToAdd} already exists`);
+      for (const { task, i } of tasks.map((task, i) => ({ task, i }))) {
+        if (task.message === newTask && index != i) {
+          window.alert(`${newTask} already exists`);
           return;
         }
       }
@@ -99,7 +102,7 @@ export function List(): JSX.Element {
 
       const newItem: list_item = {
         id: newTasks[index].id,
-        message: newTaskToAdd,
+        message: newTask,
       };
 
       const response = updateItem(newItem);
