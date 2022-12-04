@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { FiEdit, FiMinusCircle } from 'react-icons/fi';
+import { list_item } from '../services/api';
 import { Forms } from './forms';
 
 interface Props {
-  tasks: Array<string>;
+  tasks: Array<list_item>;
   handleDelete(
     e: React.MouseEvent<SVGElement, MouseEvent>,
     index: number,
@@ -38,15 +39,15 @@ export function TasksList(props: Props): JSX.Element {
   return (
     <ul className="taskList">
       {props.tasks.map((task, index) => (
-        <li key={task}>
+        <li key={task.id}>
           <span className="taskContent">
             <Forms
-              newTask={index === hiddenIndex ? newTask : task}
+              newTask={index === hiddenIndex ? newTask : task.message}
               handleChange={(e) => handleChange(e)}
               handleSubmit={(e) => handleSubmit(e)}
               classPath={index === hiddenIndex ? 'insideTaskForm' : 'hidden'}
             />
-            {hiddenIndex === index ? null : task}
+            {hiddenIndex === index ? null : task.message}
           </span>
           <span>
             <FiEdit
@@ -56,7 +57,7 @@ export function TasksList(props: Props): JSX.Element {
                   setNewtask('');
                   setHiddenIndex(-1);
                 } else {
-                  setNewtask(task);
+                  setNewtask(task.message);
                   setHiddenIndex(index);
                 }
               }}

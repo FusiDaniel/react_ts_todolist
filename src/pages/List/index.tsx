@@ -1,22 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Forms } from '../../components/forms';
 import { TasksList } from '../../components/tasks';
-import { api } from '../../services/api';
+import {
+  api,
+  list_item,
+  deleteItem,
+  addItem,
+  updateItem,
+} from '../../services/api';
 
 import './style.scss';
 
-interface responseTasks {
-  list: Array<string>;
-}
-
 export function List(): JSX.Element {
   const [newTask, setNewtask] = useState('');
-  const [tasks, setTasks] = useState(Array<string>);
+  const [tasks, setTasks] = useState(Array<list_item>);
 
   useEffect(() => {
     api.get('/todo_list').then((response) => {
-      const tasks: responseTasks = response.data;
-      setTasks(tasks.list);
+      const newTasks: Array<list_item> = response.data;
+      setTasks(newTasks);
     });
   }, []);
 
@@ -34,18 +36,23 @@ export function List(): JSX.Element {
       newTaskToAdd = newTaskToAdd.trim();
       setNewtask('');
 
-      if (tasks.indexOf(newTaskToAdd) !== -1) {
-        window.alert(`${newTaskToAdd} already exists`);
-        return;
-      }
       if (newTaskToAdd === '') return;
+      for (const task of tasks) {
+        if (task.message === newTaskToAdd) {
+          window.alert(`${newTaskToAdd} already exists`);
+          return;
+        }
+      }
 
-      const newTasks = [...tasks, newTaskToAdd];
+      const newItem: list_item = {
+        id: Math.random(),
+        message: newTaskToAdd,
+      };
+
+      const response = addItem(newItem);
+
+      const newTasks = [...tasks, newItem];
       setTasks(newTasks);
-
-      api.post('/todo_list', {
-        list: newTasks,
-      });
     },
     [newTask, setNewtask, tasks, setTasks],
   );
@@ -57,7 +64,8 @@ export function List(): JSX.Element {
       newTasks.splice(index, 1);
       setTasks([...newTasks]);
 
-      api.delete('/todo_list/' + oldTask);
+      // api.delete(`/todo_list/${oldTask.id}`, { method: 'DELETE' });
+      const response = deleteItem(oldTask.id);
     },
     [tasks, setTasks],
   );
@@ -70,19 +78,34 @@ export function List(): JSX.Element {
     ): void => {
       e.preventDefault();
 
-      if (tasks.indexOf(newTaskToAdd) !== -1) {
-        window.alert(`${newTaskToAdd} already exists`);
-        return;
-      }
       if (newTaskToAdd === '') {
         const newTasks = [...tasks];
+        const oldTask = newTasks[index];
         newTasks.splice(index, 1);
         setTasks([...newTasks]);
-      } else {
-        const newTasks = [...tasks];
-        newTasks[index] = newTaskToAdd;
-        setTasks([...newTasks]);
+
+        // api.delete(`/todo_list/${oldTask.id}`, { method: 'DELETE' });
+        const response = deleteItem(oldTask.id);
+        return;
       }
+      for (const task of tasks) {
+        if (task.message === newTaskToAdd) {
+          window.alert(`${newTaskToAdd} already exists`);
+          return;
+        }
+      }
+
+      const newTasks = [...tasks];
+
+      const newItem: list_item = {
+        id: newTasks[index].id,
+        message: newTaskToAdd,
+      };
+
+      const response = updateItem(newItem);
+
+      newTasks[index] = newItem;
+      setTasks([...newTasks]);
     },
     [tasks, setTasks],
   );

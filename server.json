@@ -16,12 +16,18 @@
   "profile": {
     "name": "typicode"
   },
-  "todo_list": {
-    "list": [
-      "menssage1",
-      "messafe2",
-      "tstes",
-      "sad"
-    ]
-  }
+  "todo_list": [
+    {
+      "id": 0.5370369538976405,
+      "message": "Teste"
+    },
+    {
+      "id": 0.7891545965943836,
+      "message": "1"
+    },
+    {
+      "id": 0.49187746578313396,
+      "message": "BATATA"
+    }
+  ]
 }
