@@ -15,6 +15,15 @@ export function List(): JSX.Element {
   const [newTask, setNewtask] = useState('');
   const [tasks, setTasks] = useState(Array<list_item>);
 
+  function deleteTask(index: number) {
+    const newTasks = [...tasks];
+    const oldTask = newTasks[index];
+    newTasks.splice(index, 1);
+
+    deleteItem(oldTask.id);
+    setTasks([...newTasks]);
+  }
+
   useEffect(() => {
     api.get('/todo_list').then((response) => {
       const newTasks: Array<list_item> = response.data;
@@ -49,8 +58,7 @@ export function List(): JSX.Element {
         message: newTaskToAdd,
       };
 
-      const response = addItem(newItem);
-
+      addItem(newItem);
       const newTasks = [...tasks, newItem];
       setTasks(newTasks);
     },
@@ -59,13 +67,7 @@ export function List(): JSX.Element {
 
   const handleDelete = useCallback(
     (e: React.MouseEvent<SVGElement, MouseEvent>, index: number) => {
-      const newTasks = [...tasks];
-      const oldTask = newTasks[index];
-      newTasks.splice(index, 1);
-      setTasks([...newTasks]);
-
-      // api.delete(`/todo_list/${oldTask.id}`, { method: 'DELETE' });
-      const response = deleteItem(oldTask.id);
+      deleteTask(index);
     },
     [tasks, setTasks],
   );
@@ -82,13 +84,7 @@ export function List(): JSX.Element {
       newTask = newTask.trim();
 
       if (newTask === '') {
-        const newTasks = [...tasks];
-        const oldTask = newTasks[index];
-        newTasks.splice(index, 1);
-        setTasks([...newTasks]);
-
-        // api.delete(`/todo_list/${oldTask.id}`, { method: 'DELETE' });
-        const response = deleteItem(oldTask.id);
+        deleteTask(index);
         return;
       }
       for (const { task, i } of tasks.map((task, i) => ({ task, i }))) {
@@ -105,7 +101,7 @@ export function List(): JSX.Element {
         message: newTask,
       };
 
-      const response = updateItem(newItem);
+      updateItem(newItem);
 
       newTasks[index] = newItem;
       setTasks([...newTasks]);

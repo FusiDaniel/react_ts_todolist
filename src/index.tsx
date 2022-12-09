@@ -4,7 +4,7 @@ import './styles/global.scss';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
-import { About } from './pages/About';
+import { TypingGame } from './pages/TypingGame';
 import { List } from './pages/List';
 import { NotFound } from './pages/NotFound';
 import { Navbar } from './components/navbar';
@@ -20,7 +20,7 @@ root.render(
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/typing_game" element={<TypingGame />} />
           <Route path="/list" element={<List />} />
           <Route path="/button" element={<IncreasingButton />} />
           <Route path="*" element={<NotFound />} />

@@ -15,7 +15,7 @@ export const Navbar = () => {
           <Link to="/list">Todo List</Link>
         </li>
         <li>
-          <Link to="/about">About</Link>
+          <Link to="/typing_game">TypingGame</Link>
         </li>
         <li>
           <Link to="/nowhere">Nowhere</Link>
