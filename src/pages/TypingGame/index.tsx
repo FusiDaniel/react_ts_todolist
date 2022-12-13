@@ -6,13 +6,13 @@ import { useInterval } from '../../hooks/user-interval';
 
 export function TypingGame(): JSX.Element {
   const [input, setInput] = useState('');
-  const [palavra, setPalavra] = useState('batata');
-  const [conseguidos, setConseguidos] = useState(Array<string>);
+  const [word, setword] = useState('');
+  const [wins, setWins] = useState(Array<string>);
   const [delay, setDelay] = useState(500);
 
   const changeWord = async () => {
     axios.get('https://random-word-api.herokuapp.com/word').then((res) => {
-      setPalavra(res.data[0]);
+      setword(res.data[0]);
       console.log(res.data[0]);
     });
   };
@@ -38,17 +38,17 @@ export function TypingGame(): JSX.Element {
   const handleSubmit = useCallback(
     (e: React.SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (input != palavra) return;
-      setConseguidos([...conseguidos, input]);
+      if (input != word) return;
+      setWins([...wins, input]);
       setInput('');
       changeWord();
     },
-    [conseguidos, setConseguidos, input, setInput],
+    [wins, setWins, input, setInput],
   );
 
   return (
     <>
-      <h1 className="title">Tente digitar: {palavra}</h1>
+      <h1 className="title">Tente digitar: {word}</h1>
       <p>Delay: {delay}ms</p>
       <ReactSlider
         className="horizontal-slider"
@@ -65,7 +65,7 @@ export function TypingGame(): JSX.Element {
         newTask={input}
       />
       <ul>
-        {conseguidos.map((item, index) => {
+        {wins.map((item, index) => {
           return <li key={index}>{item}</li>;
         })}
       </ul>
