@@ -18,7 +18,7 @@ export const Navbar = () => {
           <Link to="/typing_game">TypingGame</Link>
         </li>
         <li>
-          <Link to="/nowhere">Nowhere</Link>
+          <Link to="/redirector">Redirector Create</Link>
         </li>
       </ul>
     </nav>

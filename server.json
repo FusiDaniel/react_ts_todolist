@@ -1,29 +1,22 @@
 {
-  "posts": [
+  "linked_pages": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "url": "/asdfg",
+      "destiny": "https://google.com"
     }
   ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  },
   "todo_list": [
     {
-      "id": 0.19317434499547526,
-      "message": "adsasdas  "
+      "id": 0.8952816019342498,
+      "message": "Teste 1"
     },
     {
-      "id": 0.33755148650503797,
-      "message": "BATATAA"
+      "id": 0.2615235117971699,
+      "message": "Teste 2"
+    },
+    {
+      "id": 0.2339105141068416,
+      "message": "The quick brown fox jumps over the lazy dog"
     }
   ]
 }

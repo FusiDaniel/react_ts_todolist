@@ -25,10 +25,29 @@ export function List(): JSX.Element {
   }
 
   useEffect(() => {
-    api.get('/todo_list').then((response) => {
-      const newTasks: Array<list_item> = response.data;
-      setTasks(newTasks);
-    });
+    api
+      .get('/todo_list')
+      .then((res) => {
+        const newTasks: Array<list_item> = res.data;
+        setTasks(newTasks);
+      })
+      .catch((e) => {
+        // server responded with error
+        if (e.res) {
+          // console.log(e.res.data);
+          console.log(e.res.status);
+          // console.log(e.res.headers);
+        }
+        // server did not responded
+        else if (e.request) {
+          console.log(e.request);
+        }
+        // other errors
+        else {
+          console.log('Error', e.message);
+        }
+        console.log(e.config);
+      });
   }, []);
 
   const handleChange = useCallback(
@@ -67,7 +86,8 @@ export function List(): JSX.Element {
 
   const handleDelete = useCallback(
     (e: React.MouseEvent<SVGElement, MouseEvent>, index: number) => {
-      deleteTask(index);
+      const deleted = deleteTask(index);
+      console.log(deleted);
     },
     [tasks, setTasks],
   );
